@@ -24,6 +24,8 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + "]";
 	}
+	
+	
 	public long getId() {
 		return id;
 	}
