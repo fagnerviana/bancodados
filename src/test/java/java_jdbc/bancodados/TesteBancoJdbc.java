@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import dao.TelefoneDAO;
 import dao.UsuarioDAO;
+import model.BeanUserFone;
 import model.Telefone;
 import model.Usuario;
 
@@ -23,6 +24,19 @@ public class TesteBancoJdbc {
 		telefonedao.salvar(telefone);	
 		
 	}
+	
+	@Test
+	public void testeCarregarUserTelefone() {
+		TelefoneDAO dao = new TelefoneDAO();
+		
+		List<BeanUserFone> beanUserFones = dao.listarUserFone(6L);
+		
+		for (BeanUserFone beanUserFone : beanUserFones) {
+			System.out.println(beanUserFone);
+		}
+		
+	}
+	
 	@Test
 	public void TelefoneListar() throws SQLException {
 		TelefoneDAO telefonedao = new TelefoneDAO();
@@ -34,7 +48,7 @@ public class TesteBancoJdbc {
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		
