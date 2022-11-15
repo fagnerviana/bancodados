@@ -24,11 +24,11 @@ public class UsuarioDAO {
 	public void salvar(Usuario usuario) throws SQLException {
 
 		try {
-			String sql = "insert into usuario(id, nome,email) values(?,?,?)";
+			String sql = "insert into usuario(nome,email) values(?,?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
-			insert.setLong(1, usuario.getId());
-			insert.setString(2, usuario.getNome());
-			insert.setString(3, usuario.getEmail());
+			//insert.setLong(1, usuario.getId()); atualizado no banco o auto incremento utilizando o SEQUENCE
+			insert.setString(1, usuario.getNome());
+			insert.setString(2, usuario.getEmail());
 			insert.execute();
 			connection.commit(); // salva no banco
 			System.out.println("Usuario salvo com sucesso");
@@ -53,6 +53,7 @@ public class UsuarioDAO {
 		String sql = "Select *from usuario";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
+		//Result retorna o valor contido da Select  
 		ResultSet resultado = statement.executeQuery();
 
 		while (resultado.next()) {
@@ -88,4 +89,50 @@ public class UsuarioDAO {
 
 		return retorno;
 	}
+	
+	public void atualizar(Usuario usuario) throws SQLException {
+		
+		try {
+			
+			String sql = "update usuario set nome = ? where id = "+ usuario.getId();
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, usuario.getNome());
+			
+			statement.execute();
+			connection.commit();
+			
+		} catch (Exception e) {
+			
+			try {
+				connection.rollback();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+			
+			
+		}
+		
+		
+	}
+	
+	public void deletar(Long id) {
+		try {
+			
+			String sql ="delete from usuario where id = "+id;
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.execute();
+			connection.commit();			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
